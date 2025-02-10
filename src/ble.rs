@@ -1,8 +1,8 @@
+use defmt::{info, warn};
 use embassy_futures::join::join;
 use embassy_futures::select::select;
 use embassy_time::Timer;
 use trouble_host::prelude::*;
-use defmt::{info, warn};
 
 /// Max number of connections
 const CONNECTIONS_MAX: usize = 1;
@@ -38,10 +38,13 @@ where
     let address: Address = Address::random([0xff, 0x8f, 0x1a, 0x05, 0xe4, 0xff]);
     info!("Our address = {:?}", address);
 
-    let mut resources: HostResources<CONNECTIONS_MAX, L2CAP_CHANNELS_MAX, L2CAP_MTU> = HostResources::new();
+    let mut resources: HostResources<CONNECTIONS_MAX, L2CAP_CHANNELS_MAX, L2CAP_MTU> =
+        HostResources::new();
     let stack = trouble_host::new(controller, &mut resources).set_random_address(address);
     let Host {
-        mut peripheral, runner, ..
+        mut peripheral,
+        runner,
+        ..
     } = stack.build();
 
     info!("Starting advertising and GATT service");
@@ -128,7 +131,10 @@ async fn gatt_events_task(server: &Server<'_>, conn: &Connection<'_>) -> Result<
                             }
                             GattEvent::Write(event) => {
                                 if event.handle() == level.handle {
-                                    info!("[gatt] Write Event to Level Characteristic: {:?}", event.data());
+                                    info!(
+                                        "[gatt] Write Event to Level Characteristic: {:?}",
+                                        event.data()
+                                    );
                                 }
                             }
                         }
@@ -189,7 +195,11 @@ async fn advertise<'a, C: Controller>(
 /// This task will notify the connected central of a counter value every 2 seconds.
 /// It will also read the RSSI value every 2 seconds.
 /// and will stop when the connection is closed by the central or an error occurs.
-async fn custom_task<C: Controller>(server: &Server<'_>, conn: &Connection<'_>, stack: &Stack<'_, C>) {
+async fn custom_task<C: Controller>(
+    server: &Server<'_>,
+    conn: &Connection<'_>,
+    stack: &Stack<'_, C>,
+) {
     let mut tick: u8 = 0;
     let level = server.battery_service.level;
     loop {

@@ -682,6 +682,7 @@ dependencies = [
  "embassy-futures",
  "embassy-sync",
  "embassy-time",
+ "embedded-hal-async",
  "embedded-io",
  "embedded-io-async",
  "esp-alloc",
@@ -690,8 +691,10 @@ dependencies = [
  "esp-hal-embassy",
  "esp-wifi",
  "heapless",
+ "smart-leds",
  "static_cell",
  "trouble-host",
+ "ws2812-async",
 ]
 
 [[package]]
@@ -1134,6 +1137,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
 
 [[package]]
+name = "rgb"
+version = "0.8.50"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57397d16646700483b67d2dd6511d79318f9d057fdbd21a4066aeac8b41d310a"
+dependencies = [
+ "bytemuck",
+]
+
+[[package]]
 name = "riscv"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1213,6 +1225,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "87607cb1398ed59d48732e575a4c28a7a8ebf2454b964fe3f224f2afc07909e1"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "smart-leds"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "66df34e571fa9993fa6f99131a374d58ca3d694b75f9baac93458fe0d6057bf0"
+dependencies = [
+ "smart-leds-trait",
+]
+
+[[package]]
+name = "smart-leds-trait"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "edeb89c73244414bb0568611690dd095b2358b3fda5bae65ad784806cca00157"
+dependencies = [
+ "rgb",
 ]
 
 [[package]]
@@ -1495,6 +1525,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59690dea168f2198d1a3b0cac23b8063efcd11012f10ae4698f284808c8ef603"
 dependencies = [
  "memchr",
+]
+
+[[package]]
+name = "ws2812-async"
+version = "0.2.0"
+source = "git+https://github.com/kalkyl/ws2812-async.git?rev=2c57fe90f244bd86efed2103f8b95abc8feb4e81#2c57fe90f244bd86efed2103f8b95abc8feb4e81"
+dependencies = [
+ "embedded-hal-async",
+ "smart-leds-trait",
 ]
 
 [[package]]

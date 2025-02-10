@@ -7,6 +7,14 @@ version = "0.1.0"
 name = "ble_example"
 path = "./src/bin/ble_example.rs"
 
+[[bin]]
+name = "hello"
+path = "./src/bin/hello.rs"
+
+[[bin]]
+name = "rgb_led"
+path = "./src/bin/rgb_led.rs"
+
 [dependencies]
 embedded-io = "0.6.1"
 embedded-io-async = "0.6.1"
@@ -39,6 +47,9 @@ bt-hci = { version = "0.2", features = ["embassy-time", "uuid", "defmt"] }
 trouble-host = { git = "https://github.com/embassy-rs/trouble.git", features = ["defmt"], rev = "54cd0465ca497495b5890d896fc1f048f0a0f1ee" }
 embassy-sync = "0.6.2"
 embassy-futures = "0.1.1"
+embedded-hal-async = "1.0.0"
+ws2812-async = { git = "https://github.com/kalkyl/ws2812-async.git", rev = "2c57fe90f244bd86efed2103f8b95abc8feb4e81" }
+smart-leds = "0.4.0"
 
 
 [profile.dev]

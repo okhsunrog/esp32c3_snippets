@@ -2,14 +2,14 @@
 #![no_main]
 #![feature(impl_trait_in_assoc_type)]
 
+use bt_hci::controller::ExternalController;
 use defmt::info;
 use embassy_executor::Spawner;
 use embassy_time::{Duration, Timer};
 use esp_hal::clock::CpuClock;
-use {defmt_rtt as _, esp_backtrace as _};
-use bt_hci::controller::ExternalController;
 use esp_wifi::ble::controller::BleConnector;
 use esp32c3_snippets::ble;
+use {defmt_rtt as _, esp_backtrace as _};
 
 // change to 255 if something is not working
 pub const L2CAP_MTU: usize = 251;
