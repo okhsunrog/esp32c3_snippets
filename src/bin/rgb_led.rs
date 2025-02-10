@@ -31,7 +31,8 @@ async fn main(_spawner: Spawner) {
     let dma_channel = peripherals.DMA_CH0;
     let led_pin = peripherals.GPIO10;
 
-    let (rx_buffer, rx_descriptors, tx_buffer, tx_descriptors) = dma_buffers!(32000);
+    #[allow(clippy::manual_div_ceil)]
+    let (rx_buffer, rx_descriptors, tx_buffer, tx_descriptors) = dma_buffers!(4, 32000);
     let dma_rx_buf = DmaRxBuf::new(rx_descriptors, rx_buffer).unwrap();
     let dma_tx_buf = DmaTxBuf::new(tx_descriptors, tx_buffer).unwrap();
 
@@ -51,8 +52,8 @@ async fn main(_spawner: Spawner) {
 
     loop {
         for j in 0..(256 * 5) {
-            for i in 0..NUM_LEDS {
-                data[i] = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j as u16) & 255) as u8);
+            for (i, pixel) in data.iter_mut().enumerate() {
+                *pixel = wheel((((i * 256) as u16 / NUM_LEDS as u16 + j as u16) & 255) as u8);
             }
             ws.write(brightness(data.iter().cloned(), 32)).await.ok();
             Timer::after(Duration::from_millis(5)).await;
